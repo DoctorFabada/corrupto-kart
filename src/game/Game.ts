@@ -113,6 +113,7 @@ export class Game {
   private shareTextContentEl: HTMLTextAreaElement;
   private activeQuestionPopupEl!: HTMLElement;
   private activeQuestionTimeout: number | null = null;
+  private legalScreenEl: HTMLElement;
 
   constructor(canvas: HTMLCanvasElement) {
     this.canvas = canvas;
@@ -144,6 +145,7 @@ export class Game {
     this.shareModalEl = document.getElementById('share-modal')!;
     this.shareTextContentEl = document.getElementById('share-text-content') as HTMLTextAreaElement;
     this.activeQuestionPopupEl = document.getElementById('active-question-popup')!;
+    this.legalScreenEl = document.getElementById('legal-screen')!;
 
     // Resize handler
     this.resize();
@@ -209,6 +211,13 @@ export class Game {
     document.getElementById('btn-twitter-share')!.addEventListener('click', () => this.twitterShare());
     document.getElementById('btn-whatsapp-share')!.addEventListener('click', () => this.whatsappShare());
     document.getElementById('btn-close-share')!.addEventListener('click', () => this.hideShareModal());
+
+    // Legal & Privacy
+    document.getElementById('btn-open-legal')!.addEventListener('click', (e) => {
+      e.preventDefault();
+      this.showLegal();
+    });
+    document.getElementById('btn-close-legal')!.addEventListener('click', () => this.hideLegal());
 
     // Volume buttons
     document.getElementById('btn-vol-down')!.addEventListener('click', () => this.adjustVolume(-0.25));
@@ -1275,7 +1284,29 @@ export class Game {
     });
   }
 
+  // ═══════════════════════════════════════════════════════════
+  //  LEGAL & PRIVACY
+  // ═══════════════════════════════════════════════════════════
+
+  private showLegal(): void {
+    // Only allow opening from non-critical states
+    if (this.state === 'INTERROGATION' || this.state === 'GAME_OVER') return;
+    this.previousState = this.state;
+    this.legalScreenEl.classList.add('active');
+  }
+
+  private hideLegal(): void {
+    this.legalScreenEl.classList.remove('active');
+    // Don't change state — the game continues exactly where it was
+  }
+
   private handleHardwareBack(): void {
+    // If legal screen is open, close it first
+    if (this.legalScreenEl.classList.contains('active')) {
+      this.hideLegal();
+      return;
+    }
+
     switch (this.state) {
       case 'RACING':
       case 'COUNTDOWN':

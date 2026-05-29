@@ -2396,6 +2396,132 @@ html, body {
 }
 
 /* ==========================================
+   LEGAL & PRIVACY LINK (BOTTOM-LEFT)
+   ========================================== */
+.legal-link-bottomleft {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  z-index: 100;
+  animation: fadeIn 1.2s ease-out;
+  pointer-events: auto;
+}
+
+.legal-link-bottomleft a {
+  font-family: var(--font-hud);
+  font-size: 11px;
+  color: rgba(180, 180, 200, 0.5);
+  text-decoration: none;
+  letter-spacing: 0.3px;
+  transition: color 0.3s, text-shadow 0.3s;
+}
+
+.legal-link-bottomleft a:hover {
+  color: var(--neon-cyan);
+  text-shadow: 0 0 8px rgba(0, 255, 234, 0.4);
+}
+
+/* Hide legal link during active gameplay screens on mobile */
+@media (max-width: 768px) {
+  .legal-link-bottomleft {
+    bottom: 12px;
+    left: 12px;
+  }
+
+  .legal-link-bottomleft a {
+    font-size: 10px;
+  }
+
+  #race-hud.active ~ .legal-link-bottomleft,
+  #result-screen.active ~ .legal-link-bottomleft,
+  #gameover-screen.active ~ .legal-link-bottomleft,
+  #pause-screen.active ~ .legal-link-bottomleft,
+  #interrogation-screen.active ~ .legal-link-bottomleft,
+  #mobile-controls.active ~ .legal-link-bottomleft {
+    display: none !important;
+  }
+}
+
+/* ==========================================
+   LEGAL & PRIVACY SCREEN OVERLAY
+   ========================================== */
+#legal-screen {
+  background: rgba(5, 5, 20, 0.95);
+  backdrop-filter: blur(16px);
+  z-index: 80;
+  overflow-y: auto;
+}
+
+.legal-container {
+  text-align: left;
+  max-width: 600px;
+  width: 90%;
+  background: rgba(15, 15, 50, 0.85);
+  border: 2px solid rgba(0, 212, 255, 0.2);
+  border-radius: 20px;
+  padding: 36px 32px;
+  backdrop-filter: blur(20px);
+  box-shadow:
+    0 0 40px rgba(0, 0, 0, 0.5),
+    0 0 60px rgba(0, 212, 255, 0.06),
+    inset 0 0 30px rgba(0, 212, 255, 0.03);
+  animation: pauseIn 0.3s ease-out;
+}
+
+.legal-title {
+  font-family: var(--font-title);
+  font-size: 24px;
+  color: var(--neon-cyan);
+  text-shadow: 0 0 14px rgba(0, 255, 234, 0.5);
+  margin-bottom: 24px;
+  letter-spacing: 2px;
+  text-align: center;
+}
+
+.legal-body {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 28px;
+}
+
+.legal-body p {
+  font-family: var(--font-hud);
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.7;
+  letter-spacing: 0.2px;
+}
+
+.legal-email {
+  color: var(--neon-cyan);
+  text-decoration: none;
+  font-weight: 700;
+  transition: text-shadow 0.3s;
+}
+
+.legal-email:hover {
+  text-shadow: 0 0 10px rgba(0, 255, 234, 0.6);
+}
+
+.legal-container .btn-menu {
+  display: block;
+  margin: 0 auto;
+}
+
+@media (max-width: 600px) {
+  .legal-container {
+    padding: 24px 20px;
+  }
+  .legal-title {
+    font-size: 20px;
+  }
+  .legal-body p {
+    font-size: 12px;
+  }
+}
+
+/* ==========================================
    TEAMTURNER WATERMARK BOTTOM-RIGHT
    ========================================== */
 .title-watermark-bottomright {
