@@ -326,6 +326,13 @@ export class Game {
     }
     this.tryPlayMenuMusic();
     this.setState('SELECTION');
+    
+    // Ensure the selection screen is scrolled to the absolute top on mobile and all devices
+    const selScreen = document.getElementById('selection-screen');
+    if (selScreen) {
+      selScreen.scrollTop = 0;
+    }
+    window.scrollTo(0, 0);
   }
 
   private startRace(): void {

@@ -13,7 +13,7 @@ import { sfx } from '../utils/sfx';
 export type InterrogationResult = 'passed' | 'failed' | null;
 
 /** Duration (ms) the reaction overlay stays visible before proceeding. */
-const REACTION_DURATION_MS = 600;
+const REACTION_DURATION_MS = 1000;
 
 /** Time penalty (ms) applied for each evasion answer. */
 const EVASION_PENALTY_MS = 3000;
