@@ -12,6 +12,7 @@ export class MobileControls {
   private centerX = 0;
   private centerY = 0;
   private maxRadius = 45; // cap distance in pixels
+  private isTouchDevice = false;
 
   constructor(input: Input) {
     this.input = input;
@@ -27,10 +28,7 @@ export class MobileControls {
     }
 
     // Auto-detect touch screen presence to display controls
-    const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
-    if (isTouchDevice) {
-      this.container.classList.add('visible');
-    }
+    this.isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
 
     // Bind event listeners
     this.boundary.addEventListener('touchstart', this.handleTouchStart.bind(this), { passive: false });
@@ -163,5 +161,13 @@ export class MobileControls {
     this.input.turnRightTouch = false;
     this.input.steerTouch = 0;
     this.input.throttleTouch = 0;
+  }
+
+  public setVisible(visible: boolean): void {
+    if (!this.container || !this.isTouchDevice) return;
+    this.container.classList.toggle('visible', visible);
+    if (!visible) {
+      this.resetJoystick();
+    }
   }
 }

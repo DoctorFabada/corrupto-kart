@@ -2181,46 +2181,52 @@ html, body {
 
 /* === RESPONSIVE / MOBILE OPTIMIZATIONS === */
 @media (max-width: 768px) {
-  /* Hide the HUD portrait to avoid overlapping */
+  /* Hide the volume controller completely on mobile */
+  .volume-controller {
+    display: none !important;
+  }
+
+  /* Force driver portrait to be visible, smaller, and placed on the right side below the HUD */
   .driver-portrait-hud {
+    display: flex !important;
+    position: fixed !important;
+    top: 135px !important;
+    right: 15px !important;
+    width: 55px !important;
+    height: 55px !important;
+    border: 2px solid var(--neon-cyan) !important;
+    box-shadow: 0 0 10px rgba(0, 255, 234, 0.4) !important;
+    border-radius: 50% !important;
+    z-index: 100 !important;
+  }
+  
+  /* Force kill counter to be visible, smaller, and placed right below driver portrait */
+  .kill-counter {
+    display: block !important;
+    opacity: 1 !important;
+    position: fixed !important;
+    top: 195px !important; /* Placed below driver-portrait-hud (135px + 55px = 190px) */
+    right: 15px !important;
+    left: auto !important;
+    font-size: 11px !important;
+    padding: 6px 12px !important;
+    border-radius: 8px !important;
+    border: 1px solid rgba(255, 51, 68, 0.3) !important;
+    z-index: 100 !important;
+  }
+  /* Hide the press feed container (question history) entirely as requested */
+  .press-feed-container {
     display: none !important;
   }
   
-  /* Make the press feed container much smaller and show ONLY the latest question */
-  .press-feed-container {
-    width: calc(100% - 40px) !important;
-    max-width: none !important;
-    left: 20px !important;
+  /* Style active question popup to be smaller and positioned higher to avoid overlapping the car */
+  .active-question-popup {
     top: 75px !important;
-    padding: 10px 14px !important;
-    border-radius: 12px !important;
-  }
-  .press-feed-title {
-    font-size: 10px !important;
-    margin-bottom: 5px !important;
-    padding-bottom: 3px !important;
-    letter-spacing: 1px !important;
-  }
-  /* Hide all questions in feed except the first child (the latest one) */
-  .press-feed-list {
-    max-height: 80px !important;
-    gap: 0 !important;
-  }
-  .press-question-bubble {
-    padding: 6px 12px !important;
-    margin-bottom: 0 !important;
-    border-radius: 8px !important;
-  }
-  .press-question-bubble:not(.latest) {
-    display: none !important;
-  }
-  .press-question-meta {
-    font-size: 8px !important;
-    margin-bottom: 2px !important;
-  }
-  .press-question-text {
-    font-size: 13px !important; /* compact but still double-sized text equivalent */
-    line-height: 1.35 !important;
+    font-size: 13px !important;
+    padding: 8px 16px !important;
+    width: 85% !important;
+    max-width: 480px !important;
+    border-radius: 10px !important;
   }
   
   /* Reposition mobile controls slightly on tiny screens */
@@ -2257,6 +2263,15 @@ html, body {
   }
   .journalist-toast.death-scream {
     font-size: 16px !important;
+  }
+
+  /* Hide watermark during active gameplay screens to prevent accidental clicks */
+  #race-hud.active ~ .title-watermark-bottomright,
+  #result-screen.active ~ .title-watermark-bottomright,
+  #gameover-screen.active ~ .title-watermark-bottomright,
+  #pause-screen.active ~ .title-watermark-bottomright,
+  #interrogation-screen.active ~ .title-watermark-bottomright {
+    display: none !important;
   }
 }
 
@@ -2428,18 +2443,7 @@ html, body {
   transform: translateY(-2px);
 }
 
-/* Adjust volume bar positioning on mobile screens */
-@media (max-width: 768px) {
-  .volume-controller {
-    top: auto;
-    bottom: 20px;
-    right: 20px;
-    padding: 6px 10px;
-    border-radius: 10px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
-    z-index: 110;
-  }
-}
+
 
 /* Center Screen Active Question Popup */
 .active-question-popup {

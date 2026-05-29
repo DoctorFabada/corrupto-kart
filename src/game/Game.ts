@@ -248,6 +248,14 @@ export class Game {
         this.playUiClick();
       }
     });
+
+    // Intercept hardware / browser back button to prevent exiting on mobile/Android
+    window.history.pushState({ depth: 1 }, '');
+    window.addEventListener('popstate', () => {
+      // Re-push state to keep capturing subsequent back button presses
+      window.history.pushState({ depth: 1 }, '');
+      this.handleHardwareBack();
+    });
   }
 
   async init(): Promise<void> {
@@ -301,6 +309,11 @@ export class Game {
     // Toggle driver portrait visibility in race states
     this.driverPortraitHudEl.classList.toggle('visible',
       newState === 'COUNTDOWN' || newState === 'RACING' || newState === 'PAUSED' || newState === 'INTERROGATION');
+
+    // Toggle mobile virtual controls visibility in gameplay states
+    if (this.mobileControls) {
+      this.mobileControls.setVisible(newState === 'COUNTDOWN' || newState === 'RACING');
+    }
   }
 
   // ═══════════════════════════════════════════════════════════
@@ -325,6 +338,19 @@ export class Game {
     // Stop victory music
     this.assets.victoryMusic.pause();
     this.assets.victoryMusic.currentTime = 0;
+
+    // Pre-play and pause race music to unlock it on iOS/Android (fully silent)
+    const oldRaceVol = this.assets.raceMusic.volume;
+
+    this.assets.raceMusic.volume = 0;
+    this.assets.raceMusic.play().then(() => {
+      this.assets.raceMusic.pause();
+      this.assets.raceMusic.currentTime = 0;
+      this.assets.raceMusic.volume = oldRaceVol;
+    }).catch(err => {
+      console.warn("Failed to pre-play/unlock race music:", err);
+      this.assets.raceMusic.volume = oldRaceVol;
+    });
 
     // Initialize player at track start with selected vehicle + character
     const start = this.track.getStartPosition();
@@ -1012,7 +1038,7 @@ export class Game {
     const vehName = this.currentSelection.vehicle.name;
     const formattedTime = formatTime(this.raceTime);
 
-    const alibi = `🚨 COMUNICADO 🚨\nYo, ${charName} en ${vehName}, soy INOCENTE. Es un BULO de la fiscalía que me fugase en ${formattedTime} a ${avgSpeed} km/h arrollando a ${this.killedJournalists} periodistas "pesados". ¡No podrán demostrar nada! 🏎️💼\n\n¡Juega gratis aquí! 👉 https://corruptokart.teamturner.es\n#CorruptoKart`;
+    const alibi = `🚨 COMUNICADO 🚨\nYo, ${charName} en ${vehName}, soy INOCENTE. Es un BULO de la fiscalía que me fugase en ${formattedTime} a ${avgSpeed} km/h arrollando a ${this.killedJournalists} periodistas "pesados". ¡No podrán demostrar nada! 🏎️💼\n\n¡Juega gratis aquí! 👉 https://corrupto-kart.vercel.app/`;
 
     this.shareTextContentEl.value = alibi;
     this.shareModalEl.classList.add('active');
@@ -1240,5 +1266,37 @@ export class Game {
       life: 0,
       maxLife: 1000
     });
+  }
+
+  private handleHardwareBack(): void {
+    switch (this.state) {
+      case 'RACING':
+      case 'COUNTDOWN':
+        this.togglePause();
+        break;
+      case 'PAUSED':
+        this.resumeFromPause();
+        break;
+      case 'SELECTION':
+        this.goToTitle();
+        break;
+      case 'CONTROLS':
+        this.hideControls();
+        break;
+      case 'COMMENTS':
+        this.commentWall.hide();
+        this.returnFromOverlay();
+        break;
+      case 'GAME_OVER':
+        this.hideGameOver();
+        this.goToTitle();
+        break;
+      case 'RESULT':
+        this.goToTitle();
+        break;
+      case 'INTERROGATION':
+        // Avoid allowing escape during an interrogation
+        break;
+    }
   }
 }

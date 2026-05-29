@@ -30,9 +30,9 @@ export class Camera {
       const minDimension = Math.min(canvasWidth, canvasHeight);
       if (minDimension < 500) {
         // Mobile / Small screens: Zoom out more to keep visibility high!
-        this.zoom = 0.44;
+        this.zoom = 0.32;
       } else if (minDimension < 800) {
-        this.zoom = 0.52;
+        this.zoom = 0.41;
       } else {
         this.zoom = 0.62; // Desktop zoom level for clear visibility of tracks and obstacles
       }

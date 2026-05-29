@@ -414,6 +414,186 @@ export const INTERROGATION_QUESTIONS: InterrogationQuestion[] = [
       },
     ],
   },
+  {
+    question: '¿Puede explicar por qué llevaba tres maletines en el maletero?',
+    options: [
+      {
+        text: 'Material de oficina con mucho carácter.',
+        type: 'lie',
+        response: '¡Brillante! Nadie sospecha del material de oficina.',
+      },
+      {
+        text: 'Yo solo conduzco, el maletero tiene autonomía propia.',
+        type: 'evasion',
+        response: 'Autonomía de maletero. Pierdes 5 segundos.',
+      },
+      {
+        text: 'Sí, llevaba tres maletines con 500.000€ en dinero negro.',
+        type: 'truth',
+        response: '¡HAS CONFESADO! La fiscalía te detiene. GAME OVER.',
+      },
+    ],
+  },
+  {
+    question: '¿Por qué aparece su nombre en el expediente?',
+    options: [
+      {
+        text: 'Eso lo puso una impresora descontrolada.',
+        type: 'lie',
+        response: '¡Culpa al hardware! Una coartada tecnológica impecable.',
+      },
+      {
+        text: 'No me consta, pero me indigna muchísimo.',
+        type: 'evasion',
+        response: 'Indignación preventiva. Pierdes 5 segundos.',
+      },
+      {
+        text: 'Sí, cobré la comisión y firmé el recibo yo mismo.',
+        type: 'truth',
+        response: '¡HAS CONFESADO! Firma oficial. GAME OVER.',
+      },
+    ],
+  },
+  {
+    question: '¿Conocía usted al empresario detenido?',
+    options: [
+      {
+        text: 'Coincidimos en una rotonda institucional.',
+        type: 'lie',
+        response: '¡La rotonda de la amistad! Continúas la carrera.',
+      },
+      {
+        text: 'Me suena de no conocerlo.',
+        type: 'evasion',
+        response: 'Paradoja cognitiva. Pierdes 5 segundos.',
+      },
+      {
+        text: 'Sí, es mi socio y el que me daba los maletines.',
+        type: 'truth',
+        response: '¡HAS CONFESADO! Asociación ilícita. GAME OVER.',
+      },
+    ],
+  },
+  {
+    question: '¿Por qué hay fajos de billetes en el asiento trasero?',
+    options: [
+      {
+        text: 'Es decoración vintage de campaña electoral.',
+        type: 'lie',
+        response: '¡Estética retro! Nadie duda de tu buen gusto.',
+      },
+      {
+        text: 'Eso venía con el coche de alquiler.',
+        type: 'evasion',
+        response: 'Servicios de alquiler muy completos. Pierdes 5 segundos.',
+      },
+      {
+        text: 'Sí, son las mordidas del último concurso de basuras.',
+        type: 'truth',
+        response: '¡HAS CONFESADO! Cohecho flagrante. GAME OVER.',
+      },
+    ],
+  },
+  {
+    question: '¿Está usted huyendo de la prensa?',
+    options: [
+      {
+        text: 'No huyo, hago cardio democrático.',
+        type: 'lie',
+        response: '¡Mente sana en cuerpo corrupto! Sigue corriendo.',
+      },
+      {
+        text: 'Estoy llegando tarde a una transparencia urgente.',
+        type: 'evasion',
+        response: 'Prisa institucional. Pierdes 5 segundos.',
+      },
+      {
+        text: 'Sí, si me pillan confieso todo y voy directo a prisión.',
+        type: 'truth',
+        response: '¡HAS CONFESADO! Sincericidio en carrera. GAME OVER.',
+      },
+    ],
+  },
+  {
+    question: '¿Ha recibido dinero de origen dudoso?',
+    options: [
+      {
+        text: 'Yo recibo cariño, no dinero.',
+        type: 'lie',
+        response: '¡Mucho amor en sobres! Sigue adelante.',
+      },
+      {
+        text: 'Si llegó algo, sería por error administrativo.',
+        type: 'evasion',
+        response: 'Errores contables comunes. Pierdes 5 segundos.',
+      },
+      {
+        text: 'Sí, millones de comisiones en paraísos fiscales.',
+        type: 'truth',
+        response: '¡HAS CONFESADO! Blanqueo internacional. GAME OVER.',
+      },
+    ],
+  },
+  {
+    question: '¿Está implicado en la trama?',
+    options: [
+      {
+        text: 'Estoy implicado en mejorar el país, que es distinto.',
+        type: 'lie',
+        response: '¡Gran patriotismo! Sigue adelante.',
+      },
+      {
+        text: 'No me consta, y si me consta, no recuerdo.',
+        type: 'evasion',
+        response: 'Memoria a corto plazo deficiente. Pierdes 5 segundos.',
+      },
+      {
+        text: 'Sí, soy el cabecilla de toda la organización criminal.',
+        type: 'truth',
+        response: '¡HAS CONFESADO! Dirección de banda. GAME OVER.',
+      },
+    ],
+  },
+  {
+    question: '¿Niega haber cobrado comisiones?',
+    options: [
+      {
+        text: 'Niego la palabra comisión, prefiero "gratitud logística".',
+        type: 'lie',
+        response: '¡Semántica de alto nivel! Todo aclarado.',
+      },
+      {
+        text: 'Mi abogado dice que son emociones contables.',
+        type: 'evasion',
+        response: 'Abogacía poética. Pierdes 5 segundos.',
+      },
+      {
+        text: 'No lo niego, cobré el 3% de todas las obras públicas.',
+        type: 'truth',
+        response: '¡HAS CONFESADO! El clásico 3%. GAME OVER.',
+      },
+    ],
+  },
+  {
+    question: '¿Va a dimitir?',
+    options: [
+      {
+        text: 'Voy a reflexionar acelerando.',
+        type: 'lie',
+        response: '¡Reflexión a 120 km/h! Sigue así.',
+      },
+      {
+        text: 'Ahora mismo estoy centrado en la curva.',
+        type: 'evasion',
+        response: 'Concentración al volante. Pierdes 5 segundos.',
+      },
+      {
+        text: 'Sí, presento mi dimisión irrevocable y me entrego.',
+        type: 'truth',
+        response: '¡HAS CONFESADO! Asunción de responsabilidad. GAME OVER.',
+      },
+    ],
+  },
 ];
 
 /**
@@ -429,48 +609,50 @@ function shuffleArray<T>(array: T[]): T[] {
 }
 
 /**
- * Devuelve un set de 3 preguntas para el interrogatorio.
- * Garantiza al menos 1 pregunta específica del personaje (si existe).
- * Las opciones dentro de cada pregunta se barajan y se filtran las ya realizadas.
+ * Devuelve un set de 3 preguntas únicas para el interrogatorio.
+ * Prioriza preguntas específicas del personaje y luego rellena con genéricas u otros personajes.
+ * Garantiza la ausencia de duplicados.
  */
 export function getInterrogationSet(
   characterId: string,
   askedQuestions?: Set<string>
 ): InterrogationQuestion[] {
   const excludeSet = askedQuestions || new Set<string>();
+
+  // 1. Get all unasked specific questions
   const specific = INTERROGATION_QUESTIONS.filter(
     (q) => q.characterId === characterId && !excludeSet.has(q.question)
   );
+  // 2. Get all unasked generic questions
   const generic = INTERROGATION_QUESTIONS.filter(
     (q) => q.characterId === undefined && !excludeSet.has(q.question)
   );
+  // 3. Get all unasked other characters' questions
   const others = INTERROGATION_QUESTIONS.filter(
     (q) => q.characterId !== undefined && q.characterId !== characterId && !excludeSet.has(q.question)
   );
 
-  const result: InterrogationQuestion[] = [];
+  // Shuffle individual pools
+  const shuffledSpecific = shuffleArray(specific);
+  const shuffledGeneric = shuffleArray(generic);
+  const shuffledOthers = shuffleArray(others);
 
-  if (specific.length > 0) {
-    // Al menos 1 específica
-    const shuffledSpecific = shuffleArray(specific);
-    result.push(shuffledSpecific[0]);
+  // Build the unified preference pool of unique unasked questions
+  const pool = [
+    ...shuffledSpecific,
+    ...shuffledGeneric,
+    ...shuffledOthers
+  ];
 
-    // Las 2 restantes del pool de genéricas + otras específicas
-    const remainingPool = shuffleArray([
-      ...shuffledSpecific.slice(1),
-      ...generic,
-      ...others,
-    ]);
-    result.push(remainingPool[0], remainingPool[1]);
-  } else {
-    // Sin específicas: 3 del pool general
-    const pool = shuffleArray([...generic, ...others]);
-    // Fallback just in case we run out of unique questions (not possible with current pool, but safe)
-    const q1 = pool[0] || INTERROGATION_QUESTIONS[0];
-    const q2 = pool[1] || INTERROGATION_QUESTIONS[1];
-    const q3 = pool[2] || INTERROGATION_QUESTIONS[2];
-    result.push(q1, q2, q3);
+  // In the extremely unlikely event that the pool runs out of unique questions (< 3 left),
+  // fall back to the entire catalog of questions shuffled to prevent game breaking.
+  let selectedPool = pool;
+  if (pool.length < 3) {
+    selectedPool = shuffleArray([...INTERROGATION_QUESTIONS]);
   }
+
+  // Pick the top 3 unique questions
+  const result = [selectedPool[0], selectedPool[1], selectedPool[2]];
 
   // Barajar las opciones dentro de cada pregunta
   return result.map((q) => ({
