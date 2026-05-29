@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Corrupto Kart: Fuga del Expediente — Un juego de carreras arcade, caótico y satírico." />
+  <title>Corrupto Kart: Fuga del Expediente</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Russo+One&family=Press+Start+2P&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+  <!-- CSS is imported via src/main.ts -->
+</head>
+<body>
+  <!-- Floating Volume Controller -->
+  <div id="volume-controller" class="volume-controller">
+    <button id="btn-vol-down" class="btn-vol" title="Bajar Volumen">🔉</button>
+    <button id="btn-vol-mute" class="btn-vol" title="Silenciar">🔊</button>
+    <button id="btn-vol-up" class="btn-vol" title="Subir Volumen">🔊+</button>
+    <span id="volume-indicator" class="volume-indicator">50%</span>
+  </div>
+
+  <!-- Game Canvas -->
+  <canvas id="game-canvas"></canvas>
+
+  <!-- Title Screen Overlay -->
+  <div id="title-screen" class="screen-overlay active">
+    <!-- Social Profile Floating Top-Left -->
+    <div class="title-social-profile-topleft">
+      <a href="https://www.youtube.com/@TeamTurnerMusic" target="_blank" class="social-btn btn-youtube-img" id="social-yt" title="YouTube">
+        <img src="/assets/logotipos/utube.png" alt="YouTube" />
+      </a>
+      <a href="https://x.com/TeamTurnerMusic" target="_blank" class="social-btn btn-x-img" id="social-x" title="X (Twitter)">
+        <img src="/assets/logotipos/X.png" alt="X" />
+      </a>
+    </div>
+
+
+    <div class="title-container">
+      <div class="title-glow"></div>
+      <h1 class="game-title">
+        <span class="title-corrupto">CORRUPTO</span>
+        <span class="title-kart">KART</span>
+      </h1>
+      <p class="game-subtitle">FUGA DEL EXPEDIENTE</p>
+      <div class="title-buttons">
+        <button id="btn-play" class="btn-neon btn-play">
+          <span>🏎️ JUGAR</span>
+        </button>
+      </div>
+      <div class="title-buttons-secondary">
+        <button id="btn-controls-title" class="btn-neon btn-controls">
+          <span>❓ CONTROLES</span>
+        </button>
+        <button id="btn-comments-title" class="btn-neon btn-comments">
+          <span>💬 MURO DE LA VERGÜENZA</span>
+        </button>
+      </div>
+
+      <p class="title-hint">Pulsa ENTER o haz clic para jugar</p>
+    </div>
+    <div class="title-footer">
+      <p>WASD / Flechas para conducir · ESPACIO para derrapar · ESC para pausa</p>
+    </div>
+  </div>
+
+  <!-- Selection Screen Overlay -->
+  <div id="selection-screen" class="screen-overlay">
+    <div class="selection-container">
+      <h2 class="selection-title">ELIGE TÚ <span class="sel-highlight">PRESUNTO</span></h2>
+
+      <div class="selection-left-column">
+        <div class="selection-section">
+          <h3 class="section-label">👤 PERSONAJE</h3>
+          <div id="character-grid" class="selection-grid character-grid"></div>
+        </div>
+
+        <div class="selection-section">
+          <h3 class="section-label">🏎️ VEHÍCULO</h3>
+          <div id="vehicle-grid" class="selection-grid vehicle-grid"></div>
+        </div>
+      </div>
+
+      <div class="selection-footer">
+        <div class="selection-preview">
+          <img id="preview-character-img" class="preview-char-img" src="" alt="Personaje" />
+          <span class="preview-versus">×</span>
+          <img id="preview-vehicle-img" class="preview-veh-img" src="" alt="Vehículo" />
+        </div>
+        <p id="preview-name" class="preview-name"></p>
+        <p id="preview-quote" class="preview-quote"></p>
+        <div class="selection-buttons">
+          <button id="btn-back" class="btn-neon btn-menu">🔙 VOLVER</button>
+          <button id="btn-race" class="btn-neon btn-race">🏁 ¡A CORRER!</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Race HUD Overlay -->
+  <div id="race-hud" class="screen-overlay hud-overlay">
+    <div class="hud-top">
+      <div class="hud-item hud-time">
+        <span class="hud-label">TIEMPO</span>
+        <span id="hud-timer" class="hud-value">00:00.00</span>
+      </div>
+      <div class="hud-item hud-lap">
+        <span class="hud-label">VUELTA</span>
+        <span id="hud-lap" class="hud-value">1/3</span>
+      </div>
+      <div class="hud-item hud-speed">
+        <span class="hud-label">KM/H</span>
+        <span id="hud-speed" class="hud-value">0</span>
+      </div>
+    </div>
+    <!-- Active Journalist Question Center Overlay -->
+    <div id="active-question-popup" class="active-question-popup"></div>
+
+    <!-- Countdown overlay -->
+    <div id="countdown-display" class="countdown-display"></div>
+    <!-- Lap notification -->
+    <div id="lap-notification" class="lap-notification"></div>
+    <!-- Journalist toast -->
+    <div id="journalist-toast" class="journalist-toast"></div>
+    <!-- Death scream toast -->
+    <div id="death-scream-toast" class="journalist-toast death-scream"></div>
+    <!-- Kill counter -->
+    <div id="kill-counter" class="kill-counter">💀 Periodistas: 0</div>
+    <!-- Driver portrait below kill counter -->
+    <div id="driver-portrait-hud" class="driver-portrait-hud">
+      <img id="driver-portrait-img" src="" alt="Conductor" />
+    </div>
+    <!-- Press harassment feed -->
+    <div id="press-feed-container" class="press-feed-container">
+      <div class="press-feed-title">📢 EXCLUSIVAS DE LA PRENSA</div>
+      <div id="press-feed-list" class="press-feed-list"></div>
+    </div>
+  </div>
+
+  <!-- Pause Screen Overlay -->
+  <div id="pause-screen" class="screen-overlay">
+    <div class="pause-container">
+      <h2 class="pause-title">⏸️ PAUSA</h2>
+      <div class="pause-buttons">
+        <button id="btn-resume" class="btn-neon btn-pause-item">▶️ CONTINUAR</button>
+        <button id="btn-restart-race" class="btn-neon btn-pause-item">🔄 REINICIAR CARRERA</button>
+        <button id="btn-controls-pause" class="btn-neon btn-pause-item">🔧 CONTROLES</button>
+        <button id="btn-quit" class="btn-neon btn-pause-item">🏠 SALIR AL MENÚ</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Controls Screen Overlay -->
+  <div id="controls-screen" class="screen-overlay">
+    <div class="controls-container">
+      <h2 class="controls-title">🎮 CONTROLES</h2>
+      <div class="controls-table">
+        <div class="control-row">
+          <div class="keycap-group">
+            <span class="keycap">↑</span> / <span class="keycap">W</span>
+          </div>
+          <span class="control-desc">Acelerar</span>
+        </div>
+        <div class="control-row">
+          <div class="keycap-group">
+            <span class="keycap">↓</span> / <span class="keycap">S</span>
+          </div>
+          <span class="control-desc">Frenar / Marcha atrás</span>
+        </div>
+        <div class="control-row">
+          <div class="keycap-group">
+            <span class="keycap">←</span> / <span class="keycap">A</span>
+          </div>
+          <span class="control-desc">Girar izquierda</span>
+        </div>
+        <div class="control-row">
+          <div class="keycap-group">
+            <span class="keycap">→</span> / <span class="keycap">D</span>
+          </div>
+          <span class="control-desc">Girar derecha</span>
+        </div>
+        <div class="control-row">
+          <div class="keycap-group">
+            <span class="keycap keycap-wide">ESPACIO</span>
+          </div>
+          <span class="control-desc">Derrapar</span>
+        </div>
+        <div class="control-row">
+          <div class="keycap-group">
+            <span class="keycap">ESC</span>
+          </div>
+          <span class="control-desc">Pausa</span>
+        </div>
+      </div>
+
+      <h3 class="controls-subtitle">📋 CÓMO JUGAR</h3>
+      <div class="how-to-play">
+        <p>• Elige personaje y coche</p>
+        <p>• Completa 3 vueltas</p>
+        <p>• ¡Cuidado con los periodistas!</p>
+        <p>• Si te pillan mintiendo... sigue corriendo</p>
+        <p>• Si dices la verdad... ¡PIERDES!</p>
+      </div>
+
+      <button id="btn-controls-back" class="btn-neon btn-menu">🔙 VOLVER</button>
+    </div>
+  </div>
+
+  <!-- Interrogation Screen Overlay -->
+  <div id="interrogation-screen" class="screen-overlay">
+    <div class="interrogation-container">
+      <div class="interrogation-header">
+        <h2 id="interrogation-title" class="interrogation-title">🎤 INTERROGATORIO PARLAMENTARIO</h2>
+        <span id="interrogation-progress" class="interrogation-progress">1/3</span>
+      </div>
+      <p id="interrogation-question" class="interrogation-question"></p>
+      <div id="interrogation-options" class="interrogation-options"></div>
+      <div id="interrogation-reaction" class="interrogation-reaction"></div>
+    </div>
+  </div>
+
+  <!-- Game Over Screen Overlay -->
+  <div id="gameover-screen" class="screen-overlay">
+    <div class="gameover-container">
+      <h2 class="gameover-title">💀 ¡HAS CONFESADO!</h2>
+      <p id="gameover-text" class="gameover-text">La verdad te ha condenado. Carrera perdida.</p>
+      <div class="gameover-buttons">
+        <button id="btn-gameover-retry" class="btn-neon btn-retry">🔄 REINTENTAR</button>
+        <button id="btn-gameover-menu" class="btn-neon btn-menu">🏠 MENÚ</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Comment Wall Overlay -->
+  <div id="comment-wall" class="screen-overlay">
+    <div class="comment-wall-container">
+      <h2 class="comment-wall-title">💬 MURO DE LA VERGÜENZA</h2>
+      <p class="comment-wall-subtitle">Foro de Declaraciones, Sobornos y Coartadas Oficiales</p>
+      
+      <!-- New Post Form -->
+      <div class="comment-form">
+        <div class="form-header-grid">
+          <input type="text" id="comment-name" class="comment-input" placeholder="Tu alias de corrupto (ej. El Bigotes)..." maxlength="30" />
+        </div>
+        <textarea id="comment-message" class="comment-textarea" placeholder="Redacta tu coartada o confiesa tu comisión (máx 500 caracts)..." maxlength="500"></textarea>
+        <div class="comment-form-footer">
+          <span id="comment-cooldown" class="comment-cooldown"></span>
+          <button id="btn-post-comment" class="btn-neon btn-post">📝 REGISTRAR EN ACTA</button>
+        </div>
+      </div>
+
+      <!-- Forum Toolbar: Search & Filters -->
+      <div class="forum-toolbar">
+        <div class="search-container">
+          <input type="text" id="comment-search" class="comment-search-input" placeholder="🔍 Buscar por nombre o testimonio..." />
+        </div>
+        <div class="comment-filters">
+          <button id="btn-filter-latest" class="btn-filter active" title="Declaraciones más recientes">🆕 RECIENTES</button>
+          <button id="btn-filter-oldest" class="btn-filter" title="El origen de la trama">📜 HISTÓRICOS</button>
+          <button id="btn-filter-longest" class="btn-filter" title="Declaraciones más extensas (sumarios)">✍️ EXTENSOS</button>
+        </div>
+      </div>
+
+      <!-- Comments List -->
+      <div id="comment-list" class="comment-list"></div>
+
+      <!-- Pagination Controls -->
+      <div class="comment-pagination">
+        <button id="btn-page-prev" class="btn-neon btn-page-arrow">◀ ANTERIOR</button>
+        <span id="comment-page-indicator" class="page-indicator">PÁGINA 1 DE 1</span>
+        <button id="btn-page-next" class="btn-neon btn-page-arrow">SIGUIENTE ▶</button>
+      </div>
+
+      <button id="btn-comments-back" class="btn-neon btn-menu">🔙 VOLVER AL EXPEDIENTE</button>
+    </div>
+  </div>
+
+  <!-- Result Screen Overlay -->
+  <div id="result-screen" class="screen-overlay">
+    <div class="result-container">
+      <div class="result-header">
+        <img id="result-character-img" class="result-char-img" src="" alt="" />
+        <div class="result-header-text">
+          <h2 class="result-title">🏁 CARRERA COMPLETADA</h2>
+          <p id="result-victory-quote" class="result-quote"></p>
+        </div>
+      </div>
+      <div class="result-stats">
+        <div class="result-stat">
+          <span class="result-label">TIEMPO FINAL</span>
+          <span id="result-time" class="result-value">00:00.00</span>
+        </div>
+        <div class="result-stat">
+          <span class="result-label">MEJOR VUELTA</span>
+          <span id="result-best-lap" class="result-value">00:00.00</span>
+        </div>
+        <div class="result-stat">
+          <span class="result-label">VELOCIDAD MEDIA</span>
+          <span id="result-avg-speed" class="result-value">0 km/h</span>
+        </div>
+      </div>
+      <div class="result-buttons">
+        <button id="btn-retry" class="btn-neon btn-retry">🔄 REINTENTAR</button>
+        <button id="btn-share" class="btn-neon btn-comments">📢 DECLARAR INOCENCIA</button>
+        <button id="btn-menu" class="btn-neon btn-menu">🏠 MENÚ</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Share Modal Overlay -->
+  <div id="share-modal" class="screen-overlay">
+    <div class="share-container">
+      <h2 class="share-title">📢 COMUNICADO DE PRENSA OFICIAL</h2>
+      <p class="share-subtitle">Ministerio de Asuntos Turbios & TeamTurner</p>
+      
+      <div class="share-text-box">
+        <textarea id="share-text-content" readonly class="share-textarea"></textarea>
+      </div>
+
+      <div class="share-actions">
+        <button id="btn-copy-share" class="btn-neon btn-retry">📋 COPIAR ALIBI</button>
+        <button id="btn-twitter-share" class="btn-neon btn-x-brand">𝕏 PUBLICAR EN X</button>
+        <button id="btn-whatsapp-share" class="btn-neon btn-wa-brand">
+          <svg class="whatsapp-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" width="18" height="18" fill="currentColor">
+            <path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"/>
+          </svg>
+          WHATSAPP
+        </button>
+      </div>
+      <button id="btn-close-share" class="btn-neon btn-menu">❌ CERRAR ACTA</button>
+    </div>
+  </div>
+
+  <!-- Mobile Controls Overlay (Virtual Joystick & Touch Controls) -->
+  <div id="mobile-controls" class="mobile-controls-overlay">
+    <div class="joystick-zone">
+      <div id="joystick-boundary" class="joystick-boundary">
+        <div id="joystick-knob" class="joystick-knob"></div>
+      </div>
+    </div>
+    <div class="drift-mobile-zone">
+      <button id="btn-drift-mobile" class="btn-drift-mobile">💨 DERRAPAR</button>
+    </div>
+  </div>
+
+  <!-- TeamTurner Watermark (Visible at all times) -->
+  <div class="title-watermark-bottomright">
+    <a href="https://www.youtube.com/@TeamTurnerMusic" target="_blank" title="Visitar TeamTurner">
+      <img src="/assets/logotipos/marca_agua.png" alt="TeamTurner" class="watermark-img" />
+    </a>
+  </div>
+
+  <script type="module" src="/src/main.ts"></script>
+</body>
+</html>
