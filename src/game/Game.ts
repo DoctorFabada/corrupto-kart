@@ -171,6 +171,7 @@ export class Game {
 
     // Pause
     document.getElementById('btn-resume')!.addEventListener('click', () => this.resumeFromPause());
+    document.getElementById('btn-pause-mobile')!.addEventListener('click', () => this.togglePause());
     document.getElementById('btn-restart-race')!.addEventListener('click', () => {
       this.hidePause();
       this.startRace();
