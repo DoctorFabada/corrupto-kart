@@ -114,6 +114,8 @@ export class Game {
   private activeQuestionPopupEl!: HTMLElement;
   private activeQuestionTimeout: number | null = null;
   private legalScreenEl: HTMLElement;
+  private donationModalEl: HTMLElement;
+  private donationModalLastFocus: HTMLElement | null = null;
 
   constructor(canvas: HTMLCanvasElement) {
     this.canvas = canvas;
@@ -146,6 +148,7 @@ export class Game {
     this.shareTextContentEl = document.getElementById('share-text-content') as HTMLTextAreaElement;
     this.activeQuestionPopupEl = document.getElementById('active-question-popup')!;
     this.legalScreenEl = document.getElementById('legal-screen')!;
+    this.donationModalEl = document.getElementById('project-support-modal')!;
 
     // Resize handler
     this.resize();
@@ -164,10 +167,12 @@ export class Game {
       this.previousState = 'TITLE';
       this.showComments();
     });
+    document.getElementById('btn-donate-title')!.addEventListener('click', () => this.showDonationModal());
 
     // Result
     document.getElementById('btn-retry')!.addEventListener('click', () => this.startRace());
     document.getElementById('btn-menu')!.addEventListener('click', () => this.goToTitle());
+    document.getElementById('btn-donate-result')!.addEventListener('click', () => this.showDonationModal());
 
     // Pause
     document.getElementById('btn-resume')!.addEventListener('click', () => this.resumeFromPause());
@@ -200,6 +205,7 @@ export class Game {
       this.hideGameOver();
       this.goToTitle();
     });
+    document.getElementById('btn-donate-gameover')!.addEventListener('click', () => this.showDonationModal());
 
     // Comment wall back
     this.commentWall.setOnBack(() => {
@@ -212,6 +218,22 @@ export class Game {
     document.getElementById('btn-twitter-share')!.addEventListener('click', () => this.twitterShare());
     document.getElementById('btn-whatsapp-share')!.addEventListener('click', () => this.whatsappShare());
     document.getElementById('btn-close-share')!.addEventListener('click', () => this.hideShareModal());
+
+    // Project support modal
+    document.getElementById('btn-close-donation')!.addEventListener('click', () => this.hideDonationModal());
+    document.getElementById('btn-close-donation-secondary')!.addEventListener('click', () => this.hideDonationModal());
+    this.donationModalEl.addEventListener('click', (e) => {
+      if (e.target === this.donationModalEl) {
+        this.hideDonationModal();
+      }
+    });
+    window.addEventListener('keydown', (e) => {
+      if (e.code === 'Escape' && this.isDonationModalOpen()) {
+        e.preventDefault();
+        e.stopPropagation();
+        this.hideDonationModal();
+      }
+    }, true);
 
     // Legal & Privacy
     document.getElementById('btn-open-legal')!.addEventListener('click', (e) => {
@@ -250,6 +272,8 @@ export class Game {
       if (target && (
         target.tagName === 'BUTTON' || 
         target.closest('button') || 
+        target.classList.contains('btn-neon') ||
+        target.closest('.btn-neon') ||
         target.classList.contains('interrogation-option') ||
         target.closest('.interrogation-option') ||
         target.classList.contains('social-link') ||
@@ -591,6 +615,13 @@ export class Game {
   };
 
   private update(dt: number): void {
+    if (this.isDonationModalOpen()) {
+      if (this.input.escape) {
+        this.hideDonationModal();
+      }
+      return;
+    }
+
     switch (this.state) {
       case 'TITLE':
         // Enter or Space goes to selection
@@ -1286,6 +1317,33 @@ export class Game {
   }
 
   // ═══════════════════════════════════════════════════════════
+  //  PROJECT SUPPORT MODAL
+  // ═══════════════════════════════════════════════════════════
+
+  private showDonationModal(): void {
+    this.donationModalLastFocus = document.activeElement instanceof HTMLElement
+      ? document.activeElement
+      : null;
+    this.donationModalEl.classList.add('active');
+    this.donationModalEl.focus({ preventScroll: true });
+  }
+
+  private hideDonationModal(): void {
+    if (!this.isDonationModalOpen()) return;
+
+    this.donationModalEl.classList.remove('active');
+
+    if (this.donationModalLastFocus && document.body.contains(this.donationModalLastFocus)) {
+      this.donationModalLastFocus.focus({ preventScroll: true });
+    }
+    this.donationModalLastFocus = null;
+  }
+
+  private isDonationModalOpen(): boolean {
+    return this.donationModalEl.classList.contains('active');
+  }
+
+  // ═══════════════════════════════════════════════════════════
   //  LEGAL & PRIVACY
   // ═══════════════════════════════════════════════════════════
 
@@ -1302,6 +1360,11 @@ export class Game {
   }
 
   private handleHardwareBack(): void {
+    if (this.isDonationModalOpen()) {
+      this.hideDonationModal();
+      return;
+    }
+
     // If legal screen is open, close it first
     if (this.legalScreenEl.classList.contains('active')) {
       this.hideLegal();

@@ -68,12 +68,43 @@
         <button id="btn-comments-title" class="btn-neon btn-comments">
           <span>💬 MURO DE LA VERGÜENZA</span>
         </button>
+        <button id="btn-donate-title" class="btn-neon btn-donate">
+          <span>💚 APOYAR PROYECTO</span>
+        </button>
       </div>
 
       <p class="title-hint">Pulsa ENTER o haz clic para jugar</p>
     </div>
     <div class="title-footer">
       <p>WASD / Flechas para conducir · ESPACIO para derrapar · ESC para pausa</p>
+    </div>
+  </div>
+
+  <!-- Project Support Modal Overlay -->
+  <div id="project-support-modal" class="screen-overlay" role="dialog" aria-modal="true" aria-labelledby="project-support-title" tabindex="-1">
+    <div class="support-container">
+      <button id="btn-close-donation" class="support-close-button" type="button" aria-label="Cerrar">X</button>
+
+      <h2 id="project-support-title" class="support-title">Apoya TeamTurner / CorruptoKart</h2>
+
+      <div class="support-body">
+        <p>TeamTurner es un proyecto independiente de sátira, música, humor político y videojuegos web.</p>
+        <p>Si te has reído con CorruptoKart o quieres apoyar que sigamos creando canciones, shorts, juegos y contenido satírico, puedes aportar voluntariamente a la campaña.</p>
+        <p>El dinero recaudado se usará para ayudar a cubrir costes del proyecto: suscripciones de herramientas creativas, generación de contenido, edición, música, servidores, mantenimiento web, mejoras del juego y recursos técnicos necesarios para seguir publicando.</p>
+
+        <div class="support-transparency">
+          <h3>Aviso de transparencia:</h3>
+          <p>Esta aportación es voluntaria y no da derecho a participación, recompensa, producto, servicio personalizado ni devolución. No somos una ONG ni una entidad benéfica registrada. Las aportaciones se realizan a través de GoFundMe y se destinan al sostenimiento del proyecto creativo TeamTurner.</p>
+          <p>Las aportaciones pueden tener implicaciones fiscales según el país o comunidad autónoma de residencia. Si tienes dudas fiscales, consulta con un asesor.</p>
+        </div>
+
+        <p class="support-exit-note">Al pulsar el botón abandonarás esta web y accederás a GoFundMe.</p>
+      </div>
+
+      <div class="support-actions">
+        <a id="btn-donate-gofundme" class="btn-neon btn-donate-primary" href="https://gofund.me/653a8b740" target="_blank" rel="noopener noreferrer">Apoyar en GoFundMe</a>
+        <button id="btn-close-donation-secondary" class="btn-neon btn-menu" type="button">Cerrar</button>
+      </div>
     </div>
   </div>
 
@@ -241,6 +272,10 @@
         <button id="btn-gameover-retry" class="btn-neon btn-retry">🔄 REINTENTAR</button>
         <button id="btn-gameover-menu" class="btn-neon btn-menu">🏠 MENÚ</button>
       </div>
+      <div class="end-support-block">
+        <p class="end-support-note">Si te ha sacado una risa, ayuda a mantener el circo abierto.</p>
+        <button id="btn-donate-gameover" class="btn-neon btn-donate btn-final-support">💚 APOYAR PROYECTO</button>
+      </div>
     </div>
   </div>
 
@@ -316,6 +351,10 @@
         <button id="btn-retry" class="btn-neon btn-retry">🔄 REINTENTAR</button>
         <button id="btn-share" class="btn-neon btn-comments">📢 DECLARAR INOCENCIA</button>
         <button id="btn-menu" class="btn-neon btn-menu">🏠 MENÚ</button>
+      </div>
+      <div class="end-support-block">
+        <p class="end-support-note">Si te ha sacado una risa, ayuda a mantener el circo abierto.</p>
+        <button id="btn-donate-result" class="btn-neon btn-donate btn-final-support">💚 APOYAR PROYECTO</button>
       </div>
     </div>
   </div>
